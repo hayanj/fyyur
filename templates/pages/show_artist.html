@@ -72,6 +72,25 @@
 	</div>
 </section>
 
-<a href="/artists/{{ artist.id }}/edit"><button class="btn btn-primary btn-lg">Edit</button></a>
+<a href="/artists/{{ artist.id }}/edit"><button class="btn btn-primary btn-lg">Edit</button></a><a href="/artists/{{ artist.id }}"><button class="btn btn-danger btn-lg delete-button" data-id="{{ artist.id }}">Delete</button>
+
+<script>
+	const deleteBtns = document.querySelectorAll('.delete-button');
+	for (let i = 0; i < deleteBtns.length; i++) {
+		const btn = deleteBtns[i];
+		btn.onclick = function(e) {
+		const artistId = e.target.dataset['id'];
+		fetch('/artists/' + artistId, {
+			method: 'DELETE'
+		}).then(response => {
+		// HTTP 301 response
+		// HOW CAN I FOLLOW THE HTTP REDIRECT RESPONSE?
+		if (response.redirected) {
+			window.location.href = response.url;
+		}
+	})
+	};
+}
+</script>
 
 {% endblock %}
