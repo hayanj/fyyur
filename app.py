@@ -124,7 +124,7 @@ def search_venues():
   # search for "Music" should return "The Musical Hop" and "Park Square Live Music & Coffee"
   query = request.form.get('search_term')
   query = "%{}%".format(query)
-  venues = Venue.query.filter(Venue.name.ilike('%' + query + '%')).all()
+  venues = Venue.query.filter(Venue.name.ilike('%' + query + '%') | Venue.city.ilike('%' + query + '%') | Venue.state.ilike('%' + query + '%')).all()
   data = []
   for venue in venues:
      data.append({
