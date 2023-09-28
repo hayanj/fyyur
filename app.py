@@ -114,8 +114,8 @@ def venues():
                 "state": city.state,
                 "venues": venues_list
             })
-
-  return render_template('pages/venues.html', areas=all_venues);
+  print (all_venues)
+  return render_template('pages/venues.html', areas=all_venues)
 
 @app.route('/venues/search', methods=['POST'])
 def search_venues():
@@ -189,21 +189,19 @@ def create_venue_form():
 
 @app.route('/venues/create', methods=['POST'])
 def create_venue_submission():
-  # TODO: insert form data as a new Venue record in the db, instead
-  # TODO: modify data to be the data object returned from db insertion
   error = False
   try:
-    name = request.form(['name'])
-    city = request.form['city']
-    state = request.form['state']
-    address = request.form['address']
+    name = request.form.get('name')
+    city = request.form.get('city')
+    state = request.form.get('state')
+    address = request.form.get('address')
     genres = request.form.getlist('genres')
-    phone = request.form['phone']
-    image_link = request.form['image_link']
-    facebook_link = request.form['facebook_link']
-    website = request.form['website']
-    seeking_talent = bool(request.form['seeking_talent'])
-    seeking_description = request.form['seeking_description']
+    phone = request.form.get('phone')
+    image_link = request.form.get('image_link')
+    facebook_link = request.form.get('facebook_link')
+    website = request.form.get('website')
+    seeking_talent = bool(request.form.get('seeking_talent'))
+    seeking_description = request.form.get('seeking_description')
     venue = Venue(name=name, city=city, state=state, address=address, phone=phone,
                     genres=genres,facebook_link=facebook_link, image_link=image_link,
                     website=website, seeking_talent=seeking_talent, seeking_description=seeking_description)
@@ -221,7 +219,7 @@ def create_venue_submission():
     # on successful db insert, flash success
     flash('Venue ' + request.form['name'] + ' was successfully listed!')
   else:
-    flash('An error occurred. Venue' + request.form['name'] + ' could not be listed.')
+    flash('An error occurred. Venue ' + request.form['name'] + ' could not be listed.')
 
   return render_template('pages/home.html')
 
@@ -329,6 +327,7 @@ def show_artist(artist_id):
     "past_shows_count": 1,
     "upcoming_shows_count": 0,
   }
+
   data3={
     "id": 6,
     "name": "The Wild Sax Band",
@@ -358,6 +357,7 @@ def show_artist(artist_id):
     "past_shows_count": 0,
     "upcoming_shows_count": 3,
   }
+
   data = list(filter(lambda d: d['id'] == artist_id, [data1, data2, data3]))[0]
   return render_template('pages/show_artist.html', artist=data)
 
@@ -406,7 +406,7 @@ def edit_venue(venue_id):
   form.facebook_link.data = venue.facebook_link
   form.image_link.data = venue.image_link
   form.seeking_description.data = venue.seeking_description
-  
+
   return render_template('forms/edit_venue.html', form=form, venue=venue)
 
 @app.route('/venues/<int:venue_id>/edit', methods=['POST'])
@@ -414,17 +414,17 @@ def edit_venue_submission(venue_id):
   error = False
   venue = Venue.query.get(venue_id)
   try:
-    venue.name = request.form['name']        
-    venue.city = request.form['city']
-    venue.state = request.form['state']
-    venue.address = request.form['address']
+    venue.name = request.form.get('name')        
+    venue.city = request.form.get('city')
+    venue.state = request.form.get('state')
+    venue.address = request.form.get('address')
     venue.genres = request.form.getlist('genres')
-    venue.phone = request.form['phone']
-    venue.image_link = request.form['image_link']
-    venue.facebook_link = request.form['facebook_link']
-    venue.website = request.form['website']
-    venue.seeking_talent = json.loads(request.form['seeking_talent'].lower())
-    venue.seeking_description = request.form['seeking_description']
+    venue.phone = request.form.get('phone')
+    venue.image_link = request.form.get('image_link')
+    venue.facebook_link = request.form.get('facebook_link')
+    venue.website = request.form.get('website')
+    venue.seeking_talent = bool(request.form.get('seeking_talent'))
+    venue.seeking_description = request.form.get('seeking_description')
 
     db.session.commit()
   except:
