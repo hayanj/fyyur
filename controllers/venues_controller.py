@@ -12,7 +12,9 @@ from datetime import datetime
 from forms import VenueForm
 import sys
 import json
-from config import venues_route
+
+# Flask uses a concept of blueprints for making application components and supporting common patterns within an application or across applications.
+venues_route = Blueprint('venues', __name__)
 
 #  Routes
 #  ----------------------------------------------------------------
@@ -62,7 +64,6 @@ def search_venues():
 def show_venue(venue_id):
   # shows the venue page with the given venue_id
   venue = Venue.query.get(venue_id)
-  # TODO add json data to model to decrease the clutter
   past_shows = []
   upcoming_shows = []
   for show in venue.shows:
@@ -103,6 +104,9 @@ def show_venue(venue_id):
 @venues_route.route('/create', methods=['GET'])
 def create_venue_form():
   form = VenueForm()
+  if (not form.validate_on_submit()):
+    for field, message in form.errors.items():
+      flash(field + ' - ' + str(message), 'danger')
   return render_template('forms/new_venue.html', form=form)
 
 
@@ -207,7 +211,7 @@ def edit_venue_submission(venue_id):
   finally:
     db.session.close() 
   if (not error):
-    flash('Venue ' + request.form['name'] + ' was successfully edited!')
+    flash('Venue ' + request.form['name'] + ' was successfully listed!')
   else:
-    flash('Venue ' + request.form['name'] + ' could not be edited')
+    flash('Venue ' + request.form['name'] + ' could not be listed')
   return redirect(url_for('venues.show_venue', venue_id=venue_id))

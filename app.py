@@ -15,11 +15,9 @@ from flask_wtf import Form
 from forms import *
 import sys
 from models import db, Venue, Artist, Show
-from config import (
-    artists_route,
-    venues_route,
-    shows_route
-)
+from controllers.artists_controller import artists_route
+from controllers.venues_controller import venues_route
+from controllers.shows_controller import shows_route
 from database import db
 #----------------------------------------------------------------------------#
 # App Config.
@@ -51,7 +49,7 @@ def format_datetime(value, format='medium'):
 app.jinja_env.filters['datetime'] = format_datetime
 
 #----------------------------------------------------------------------------#
-# Blueprints learned from (https://flask.palletsprojects.com/en/2.3.x/blueprints/)
+# Blueprints
 #----------------------------------------------------------------------------#
 
 app.register_blueprint(venues_route, url_prefix='/venues')

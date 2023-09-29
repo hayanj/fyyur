@@ -6,11 +6,17 @@ from flask import (
    flash,
    redirect,
    url_for,
+   Blueprint
 )
 from datetime import datetime
 from forms import ArtistForm
 import sys
-from config import artists_route
+import json
+
+# Flask uses a concept of blueprints for making application components and supporting common patterns within an application or across applications.
+artists_route = Blueprint('artists', __name__)
+
+
 #  Routes
 #  ----------------------------------------------------------------
 
@@ -45,7 +51,6 @@ def search_artists():
 def show_artist(artist_id):
   # shows the artist page with the given artist_id
     artist = Artist.query.get(artist_id)
-    # TODO add json data to model to decrease the clutter
     past_shows = []
     upcoming_shows = []
     for show in artist.shows:
@@ -157,6 +162,9 @@ def edit_artist_submission(artist_id):
 @artists_route.route('/create', methods=['GET'])
 def create_artist_form():
   form = ArtistForm()
+  if (not form.validate_on_submit()):
+    for field, message in form.errors.items():
+      flash(field + ' - ' + str(message), 'danger')
   return render_template('forms/new_artist.html', form=form)
 
 

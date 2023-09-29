@@ -12,8 +12,3 @@ DEBUG = True
 
 # IMPLEMENT DATABASE URL
 SQLALCHEMY_DATABASE_URI = 'postgresql://hayaaljuraysi@localhost:5432/fyyur'
-
-# Blueprints taken from https://flask.palletsprojects.com/en/2.3.x/blueprints/
-artists_route = Blueprint('artists', __name__)
-shows_route = Blueprint('show', __name__)
-venues_route = Blueprint('venues', __name__)
