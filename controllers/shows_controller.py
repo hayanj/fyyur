@@ -6,14 +6,13 @@ from flask import (
    flash,
    redirect,
    url_for,
-   Blueprint
 )
 from datetime import datetime
 from forms import ShowForm
 import sys
 import json
+from config import shows_route
 
-shows_route = Blueprint('show', __name__)
 
 #  Routes
 #  ----------------------------------------------------------------
@@ -22,6 +21,7 @@ shows_route = Blueprint('show', __name__)
 def shows():
   # displays list of shows at /shows
   shows = Show.query.all()
+  # TODO add json data to model to decrease the clutter
   data = []
   for show in shows:
     data.append({
