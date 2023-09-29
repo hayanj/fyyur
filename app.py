@@ -6,7 +6,6 @@ import json
 import dateutil.parser
 import babel
 from flask import Flask, render_template
-
 from flask_moment import Moment
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy

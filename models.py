@@ -36,6 +36,7 @@ class Artist(db.Model):
     seeking_venue = db.Column(db.Boolean, nullable=False, default=False)
     seeking_description = db.Column(db.String)
     shows = db.relationship('Show', backref='artist', lazy=True)
+    # albums = db.relationship('Album', backref='artist', lazy=True)
 
 class Show(db.Model):
     __tablename__ = 'Show'
@@ -44,3 +45,13 @@ class Show(db.Model):
     artist_id = db.Column(db.Integer, db.ForeignKey('Artist.id'),nullable=False)
     venue_id = db.Column(db.Integer, db.ForeignKey('Venue.id'),nullable=False)
     start_time = db.Column(db.DateTime(), nullable=False)
+
+#TODO add album to artist
+# class Album(db.Model):
+#     __tablename__ = 'Album'
+
+#     id = db.Column(db.Integer, primary_key=True)
+#     artist_id = db.Column(db.Integer, db.ForeignKey('Artist.id'),nullable=False)
+#     name = db.Column(db.String)
+#     published_date = db.Column(db.DateTime(), nullable=False)
+#     songs = db.Column(db.ARRAY(db.String))

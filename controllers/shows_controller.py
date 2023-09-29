@@ -60,7 +60,7 @@ def create_show_submission():
     finally:
         db.session.close()
   # on successful db insert, flash success
-    if not error:
+    if (not error):
         flash('Show was successfully listed!')
   # on unsuccessful db insert, flash an error instead.
     else:
@@ -93,12 +93,19 @@ def search_shows():
 
 @shows_route.route('/<show_id>', methods=['DELETE'])
 def delete_show(show_id):
+  error = False
   try:
     show = Show.query.get(id=show_id)
     db.session.delete(show)
     db.session.commit()
   except:
+    error = True
     db.session.rollback()
   finally:
     db.session.close()
+  if (not error):
+    # on successful delete, flash success
+    flash('Show was successfully deleted!')
+  else:
+    flash('An error occurred. Show could not be deleted.')
   return redirect(url_for('index'))

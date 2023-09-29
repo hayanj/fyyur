@@ -236,3 +236,17 @@ class ArtistForm(Form):
     seeking_description = StringField(
             'seeking_description'
      )
+
+#TODO add album to artist   
+# class AlbumForm(Form):
+#     artist_id = StringField(
+#         'artist_id'
+#     )
+#     name = StringField(
+#         'name', validators=[DataRequired()]
+#     )
+#     published_date = DateTimeField(
+#         'start_time',
+#         validators=[DataRequired()],
+#         default= datetime.today()
+#     )

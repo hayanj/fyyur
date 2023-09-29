@@ -22,14 +22,16 @@ artists_route = Blueprint('artists', __name__)
 
 @artists_route.route('')
 def artists():
-  data = Artist.query.order_by('id').all()
-  return render_template('pages/artists.html', artists=data)
+  artists = Artist.query.order_by('id').all()
+  return render_template('pages/artists.html', artists=artists)
 
 
 @artists_route.route('/search', methods=['POST'])
 def search_artists():
+    #get the search term from the form
     query = request.form.get('search_term')
     query = "%{}%".format(query)
+
     artists = Artist.query.filter(Artist.name.ilike('%' + query + '%')).all()
     data = []
     for artist in artists:
@@ -93,7 +95,6 @@ def delete_artist(artist_id):
         for show in artist.shows:
             db.session.delete(show)
             db.session.commit()
-
         db.session.delete(artist)
         db.session.commit()
     except:
@@ -101,7 +102,6 @@ def delete_artist(artist_id):
        db.session.rollback()
     finally:
        db.session.close()
-    
     if (not error):
     # on successful delete, flash success
         flash('Artist was successfully deleted!')
@@ -152,10 +152,10 @@ def edit_artist_submission(artist_id):
     finally:
         db.session.close()
     # on successful db insert, flash success
-    if error:
-        flash('An error occurred.')
-    if not error:
+    if (not error):
         flash('Artist ' + request.form['name'] + ' was successfully updated!')
+    else:
+        flash('Artist ' + request.form['name'] + ' could not be updated.')
     return redirect(url_for('artists.show_artist', artist_id=artist_id))
 
 
@@ -191,8 +191,8 @@ def create_artist_submission():
     finally:
        db.session.close()
   # on successful db insert, flash success
-    if not error:
+    if (not error):
        flash('Artist ' + request.form['name'] + ' was successfully listed!')
     else:
-       flash('Artist ' + request.form['name'] + ' could not be listed.!')
+       flash('Artist ' + request.form['name'] + ' could not be listed.')
     return render_template('pages/home.html')

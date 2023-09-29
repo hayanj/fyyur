@@ -33,9 +33,9 @@ def venues():
             "num_upcoming_shows": len(d.shows)
         })
     all_venues.append({
-                "city": city.city,
-                "state": city.state,
-                "venues": venues_list
+            "city": city.city,
+            "state": city.state,
+            "venues": venues_list
             })
   print (all_venues)
   return render_template('pages/venues.html', areas=all_venues)
@@ -207,8 +207,8 @@ def edit_venue_submission(venue_id):
     print(sys.exc_info())
   finally:
     db.session.close() 
-  if error:
-    flash('An error occurred.')
-  if not error:
+  if (not error):
     flash('Venue ' + request.form['name'] + ' was successfully listed!')
+  else:
+    flash('Venue ' + request.form['name'] + ' could not be listed')
   return redirect(url_for('venues.show_venue', venue_id=venue_id))
