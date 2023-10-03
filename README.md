@@ -6,7 +6,7 @@ Fyyur is a musical venue and artist booking site that facilitates the discovery 
 ## Getting Started
 
 
-### Pre-requisites and Local Development
+### Pre-requisites and Local Development (macOS)
 
 
 Developers who wishes to work on this project should already have Python3, pip, HTML, CSS, and Javascript with Bootstrap 3 installed.
@@ -19,16 +19,22 @@ Tech stack includes:
 * PostgreSQL as our database of choice
 * Python3 and Flask as our server language and server framework
 * Flask-Migrate for creating and running schema migrations
-* From the backend folder, you can download and install the dependencies mentioned above using pip as:
+
+##### Initialize and activate a virtualenv
+
+
 ```bash
-pip install virtualenv
-pip install SQLAlchemy
-pip install postgres
-pip install Flask
-pip install Flask-Migrate
+python -m virtualenv env
+source env/bin/activate
+```
+##### Install the dependencies
+
+From the backend folder, you can download and install the dependencies mentioned above:
+```bash
+pip install -r requirements.txt
 ```
 
-To run this application, run the following commands:
+##### Run the development server
 ```bash
 export FLASK_APP=flaskr
 export FLASK_ENV=development
@@ -39,7 +45,7 @@ flask run
 * ```bash export FLASK_ENV=development ``` this command will insure that we will be working in development mode, which will show us an interactive debugger in the console and resart the server whenever a change is made.
 * ```bash flask run ``` this command will start the application.
 
-The application is run on http://127.0.0.1:5000/ by default and is a proxy in the frontend configuration.
+The application is running on http://127.0.0.1:5000/ by default and is a proxy in the frontend configuration.
 
 #### Frontend
 
